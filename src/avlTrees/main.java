@@ -10,7 +10,6 @@ public class main {
 		rotations_height_print N=new rotations_height_print();
 		insertion nodeinsert=new insertion();
 		deletion  nodedelete=new deletion();
-		batchlookup look=new batchlookup();
 		Scanner input=new Scanner(System.in);
 		boolean temp=false;
 		while(!temp) {
