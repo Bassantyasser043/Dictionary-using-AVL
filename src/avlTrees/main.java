@@ -4,17 +4,17 @@ import java.io.FileNotFoundException;
 import java.util.*;
 
 public class main {
+	public static int size=0;
 	public static void main(String[] args) throws FileNotFoundException {
 		String operation;
 		rotations_height_print N=new rotations_height_print();
 		insertion nodeinsert=new insertion();
 		deletion  nodedelete=new deletion();
-		load  nodeload=new load();
 		batchlookup look=new batchlookup();
 		Scanner input=new Scanner(System.in);
 		boolean temp=false;
 		while(!temp) {
-			System.out.println("Enter your desired operation: (insert - delete - height - print - load - search - batchlook) or (exit) to end the program: ");
+			System.out.println("Enter your desired operation: (insert - size - delete - height - print - load - search - batchlook) or (exit) to end the program: ");
 			 operation=input.next(); 
 				switch(operation) {
 				case "load":
@@ -22,8 +22,9 @@ public class main {
 					String link=input.next();
 					File file = new File(link);
 					Scanner sc = new Scanner(file);
-					while (sc.hasNextLine())
+					while (sc.hasNextLine()){
 						nodeinsert.root=nodeinsert.Insertion(nodeinsert.root,sc.nextLine());
+					    size++;}
 					break;
 				case "batchlook":
 						System.out.println("Enter link of the file you want to look");
@@ -31,21 +32,27 @@ public class main {
 						String batchlink=input.next();
 						File fil = new File(batchlink);
 						Scanner c = new Scanner(fil);
-						while (c.hasNextLine()){
+						while(c.hasNextLine()){
 							N.root=N.search(nodeinsert.root,c.nextLine());
-							if(nodeinsert.root != null) {
-								System.out.println("YES "+N.root.element);
+							if(N.root!=null) {
+								System.out.println("Yes "+N.root.element);
 								found++;
-							}else {
-								System.out.println("NO"+N.root.element);
 							}
+							else System.out.println("NO ");
 						}
 						System.out.println(found);
-						break;
+					break;
 				case "insert":
 					System.out.println("Enter the element: ");
 					String item=input.next();
-					nodeinsert.root=nodeinsert.Insertion(nodeinsert.root,item);
+					N.root=N.search(nodeinsert.root,item);
+					if(N.root==null) {
+						nodeinsert.root=nodeinsert.Insertion(nodeinsert.root,item);
+						System.out.println("done insertion");
+						size++;
+					}
+
+
 					break;
 
 					case "height":
@@ -55,23 +62,33 @@ public class main {
 				  N.printAvlTree( nodeinsert.root,  N.Height(nodeinsert.root));
 				  break;
 				case "delete":
-					System.out.println("Enter the element that you want to delete : ");
-					String itemdeleted=input.next();
-					nodeinsert.root=nodedelete.Deletion( nodeinsert.root, itemdeleted);
 					if(nodeinsert.root != null) {
-						System.out.println("element deleted is done..");
+						System.out.println("Enter the element that you want to delete : ");
+						String itemdeleted=input.next();
+
+						N.root=N.search(nodeinsert.root,itemdeleted);
+						if(N.root!=null) {
+							nodeinsert.root=nodedelete.Deletion( nodeinsert.root, itemdeleted);
+							System.out.println("done");
+							size--;
+						}
+
 					}else {
-						System.out.println("Not Found");
+						System.out.println("Empty Tree");
 					}
 					break;
+
 				case"search":
 					System.out.println("Enter the element that you want to search for : ");
 					String itemsearch=input.next();
 					N.root=N.search(nodeinsert.root,itemsearch);
 					if(N.root!=null) {
-						System.out.println(""+N.root.element);
+						System.out.println(N.root.element);
 					}
 					break;
+					case"size":
+						System.out.println("Size of the dictionary: "+size);
+						break;
 				case"exit":
 					System.exit(0);
 //					temp=true;

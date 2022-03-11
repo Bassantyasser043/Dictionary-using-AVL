@@ -29,6 +29,7 @@ public class rotations_height_print {
 		}
 		if(now==null) {
 			System.out.println("Not Found..");
+			return null;
 		}
 		
 		return now;
